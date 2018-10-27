@@ -1,0 +1,24 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t mickeyliu/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run mickeyliu/react-test npm run test -- --coverage
+
+after_success:
+  - docker build -t mickeyliu/fib-app-client ./client
+  - docker build -t mickeyliu/fib-app-nginx ./nginx
+  - docker build -t mickeyliu/fib-app-server ./server
+  - docker build -t mickeyliu/fib-app-worker ./worker
+
+  # Login to docker cli with username
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+  #Take images and push to our docker hub
+  - docker push mickeyliu/fib-app-client
+  - docker push mickeyliu/fib-app-nginx
+  - docker push mickeyliu/fib-app-server
+  - docker push mickeyliu/fib-app-worker
