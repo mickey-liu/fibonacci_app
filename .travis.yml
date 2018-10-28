@@ -22,3 +22,16 @@ after_success:
   - docker push mickeyliu/fib-app-nginx
   - docker push mickeyliu/fib-app-server
   - docker push mickeyliu/fib-app-worker
+
+# deploy:
+#   provider: elasticbeanstalk
+#   region: us-west-1
+#   app: fib-app
+#   env: fibApp-env
+#   bucket_name: elasticbeanstalk-us-west-1-34789279282
+#   bucket_path: app-fib
+#   on:
+#     branch: master
+#   access_key_id: $AWS_ACCESS_KEY
+#   secret_access_key:
+#     secure: $AWS_SECRET_KEY
